@@ -48,7 +48,7 @@ No, extra credit.
 crc card - Class, Responsibility, collaborator
 
 ------------------------|-------------------|
-Word Frequency Analyzor	|		    |
+Word Frequency Analyzer	|		    |
 ------------------------|-------------------|
 Analyze the text	|	file	    |
 file			|		    |
