@@ -1,0 +1,82 @@
+1.How is the text file obtained, or is it already card coded in?
+-we can use a dialog box.
+
+2.Does how it sorted matter?
+3.How important is speed? More important than a lot of memory?
+4.Do you want the summary printed on screen? or put to a text file?
+it should be in a speadsheet format.
+
+word		Frequency
+---		-----
+and		10
+baby		4
+chance		2
+
+
+5.How does it handle word that occur the same frequency.
+-They have to be listed aplphabetically.
+
+6.How do you handle special characters?
+-ignore them, they're whitespace.
+
+7.Are we to enhace the program to accept non-tex files?
+No.
+
+8.Does it modify the file.
+Negative.
+
+9.Is the efficiency of the program regaurding speed or space?
+Read line by line, not the whole file.
+
+10.How are the words sperated?
+standard whitespace, '.', ',', ';'
+
+11.When counting occourances of words does capitalization matter? 
+It does not matter.
+	can the user specifiy? No.
+
+12.Are we distinguishing between single and plural?
+They're different.
+
+13.What is a word? Are we suppose to use a dictionary.
+No, extra credit.
+
+
+
+
+
+crc card - Class, Responsibility, collaborator
+
+------------------------|-------------------|
+Word Frequency Analyzor	|		    |
+------------------------|-------------------|
+Analyze the text	|	file	    |
+file			|		    |
+------------------------|-------------------|
+
+
+------------------------------|
+Word Counter		      |
+------------------------------|
+*Opens the file		      |
+*Creates scanner Object       |
+*Passes object to WFA	      |
+------------------------------|
+
+
+
+-------------------------------------|
+Word Frequency Collection   	     |
+-------------------------------------|
+*Ability to add a word to collection |
+*given a word, report frequency	     |
+*iterator			     |
+-------------------------------------|
+
+
+
+-------------------------------|
+Report Generator	       |
+-------------------------------|
+print 			       |
+--------------------------------
