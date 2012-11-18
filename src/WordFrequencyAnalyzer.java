@@ -46,18 +46,19 @@ public class WordFrequencyAnalyzer {
 	}
 
 	private void outputAnalysis() {
+		String newline = System.lineSeparator();
 		if (outputSource instanceof java.io.PrintStream) {
 			((java.io.PrintStream) outputSource).printf("%-40s\t%s\n%-40s\t%s",
 					"Word", "Frequency", "----", "---------");
 			for (int i = 0; i < words.size(); i++) {
 				((java.io.PrintStream) outputSource).print(words.get(i)
-						.toString() + "\n");
+						.toString() + newline);
 			}
 		}
 		if (outputSource instanceof javax.swing.JTextArea) {
 			for (int i = 0; i < words.size(); i++) {
 				((javax.swing.JTextArea) outputSource).append("  "
-						+ words.get(i).toString() + "\n");
+						+ words.get(i).toString() + newline);
 			}
 		}
 	}
