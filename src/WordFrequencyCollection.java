@@ -18,7 +18,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	}
 	/**
 	 * 
-	 * @param s the word attemping to be added to the collection
+	 * @param s the word attempting to be added to the collection
 	 * @return boolean if the word exists already in the collection.
 	 */
 	public boolean contains(String s) {
@@ -30,7 +30,11 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		}
 		return false;
 	}
-
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public boolean add(String s) {
 		if (s == null)
 			return false;

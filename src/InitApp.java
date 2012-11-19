@@ -18,7 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
 
-/*
+/**
  * This class is just like MenuLookDemo, except the menu items
  * actually do something, thanks to event listeners.
  */
@@ -31,7 +31,10 @@ public class InitApp implements ActionListener {
 
 	// Functional classes
 	WordFrequencyAnalyzer analyzer;
-
+	/**
+	 * 
+	 * @return the menu bar for the file selector.
+	 */
 	public JMenuBar createFileBar() {
 		JMenuBar menuBar; // File bar
 		JMenu menu; // Place holders for respective menus
@@ -125,10 +128,12 @@ public class InitApp implements ActionListener {
 				startFileSave();
 		}
 	}
-
+	/**Have the user select the a file to be analyzed and assure
+	 * they are only opening a file 
+	 */
 	public void startFileOpen() {
-		JFileChooser filePicker;
-		filePicker = new JFileChooser();
+		JFileChooser filePicker = new JFileChooser();
+	
 		// ensures user does not select a directory
 		filePicker.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		try {
@@ -149,7 +154,9 @@ public class InitApp implements ActionListener {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	/**
+	 *If the user selects .txt or .html save the file to the specified output filepath
+	 */
 	public void startFileSave() {
 		JFileChooser fileOpener = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -177,7 +184,7 @@ public class InitApp implements ActionListener {
 	}
 
 	/**
-	 * Create the GUI and show it. For thread safety, this method should be
+	 * Create the GUI and display it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
 	private static void createAndShowGUI() {
@@ -194,8 +201,12 @@ public class InitApp implements ActionListener {
 		frame.setSize(250, 400);
 		frame.setVisible(true);
 	}
-
-	private void writeHTML(File f) {
+	
+	/**Outputs to an HTML File
+	 * 
+	 * @param outputFile file to the output file
+	 */
+	private void writeHTML(File outputFile) {
 		FileWriter writeFile;
 		try {
 			writeFile = new FileWriter(filePath, false);
@@ -206,8 +217,12 @@ public class InitApp implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-
-	private void writeTXT(File f) {
+	/**
+	 * writes a .txt report file
+	 * 
+	 * @param file the filepath of the output file.
+	 */
+	private void writeTXT(File file) {
 		FileWriter writeFile;
 		try {
 			writeFile = new FileWriter(filePath, false);
@@ -218,7 +233,11 @@ public class InitApp implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * identifies what type of file we are looking at eg (.txt, .pdf)
+	 * @param f output file path.
+	 * @return returns the extension of the specified file.
+	 */
 	private static String getExtension(File f) {
 		String extension = null;
 		String s = f.getName();
