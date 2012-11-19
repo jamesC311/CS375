@@ -7,29 +7,33 @@ import java.io.File;
  * Notable Classes that this class interacts with: WordCounter.java
  * ReportGenerator.java WordFrequencyCollection.java
  * 
- * CRC Card: | ------------------------------------| |Word Frequency Collection
- * | |-------------------------------------| |Ability to add a word to
- * collection | |given a word, report frequency | |iterator |
- * |-------------------------------------|
- * 
- * 
+
  * @author James Celona
  * @author Joe Young
  * 
  */
 public class WordFrequencyAnalyzer {
+	
 	private WordFrequencyCollection words = new WordFrequencyCollection();
 	private WordCounter wordCounter;
 	private ReportGenerator reportGen;
-	private File filePath = null;
+	private File filePath = null;  //unless the user adds a file we can assume there is nothing.
 	private Object outputSource;
-
+	
+	/**
+	 * 
+	 * @param filePath the path to the file the user wants analyzed. 
+	 */
 	WordFrequencyAnalyzer(File filePath) {
 		this.filePath = filePath;
 		wordCounter = new WordCounter(this.filePath);
 		outputSource = System.out;
 	}
-
+	/**
+	 * 
+	 * @param filePath the path to the file the user wants analyzed.
+	 * @param outputSouce //TODO: what is outputsource? just where we are sending it?
+	 */
 	WordFrequencyAnalyzer(File filePath, Object outputSouce) {
 		this(filePath);
 		this.outputSource = outputSouce;
@@ -44,7 +48,9 @@ public class WordFrequencyAnalyzer {
 		sortWords(words, words.size());
 		outputAnalysis();
 	}
-
+	/**
+	 * Creates a basic excel like file displaying all words and their frequency.
+	 */
 	private void outputAnalysis() {
 		String newline = System.lineSeparator();
 		if (outputSource instanceof java.io.PrintStream) {
@@ -62,12 +68,19 @@ public class WordFrequencyAnalyzer {
 			}
 		}
 	}
-
+/**
+ * Add all words to the word collection //TODO: does this even need to be documented?
+ */
 	private void populateCollection() {
 		while (wordCounter.hasNext())
 			words.add(wordCounter.getNextWord());
 	}
-
+	/**
+	 * 
+	 * @param word 
+	 * @param n
+	 */
+	//TODO: Rename these to be more specific ?
 	private void sortWords(WordFrequencyCollection word, int n) {
 		int i, j;
 		WordFrequency temp = null;

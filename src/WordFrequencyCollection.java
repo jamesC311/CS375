@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.Formatter;
-
+/**
+ * This class will be maintaining a collection of words from a text file
+ * It will also be keeping track of the number of times the word is seen.
+ * 
+ * @author James Celona
+ *@author Joe Young
+ */
 public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 
 	public int indexOf(String s) {
@@ -10,7 +16,11 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		}
 		return -1;
 	}
-
+	/**
+	 * 
+	 * @param s the word attemping to be added to the collection
+	 * @return boolean if the word exists already in the collection.
+	 */
 	public boolean contains(String s) {
 		if (this.size() <= 0)
 			return false;
