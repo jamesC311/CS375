@@ -9,6 +9,10 @@ import java.util.Formatter;
  */
 public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L; //TODO: Find out what this is..
 	public int indexOf(String s) {
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).equals(s))
@@ -22,17 +26,33 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return boolean if the word exists already in the collection.
 	 */
 	public boolean contains(String s) {
-		if (this.size() <= 0)
+		if (size() <= 0)
 			return false;
-		for (int i = 0; i < this.size(); i++) {
-			if (this.get(i).equals(s))
+		for (int i = 0; i < size(); i++) {
+			if (get(i).equals(s))
 				return true;
 		}
 		return false;
 	}
+	
+	public void sort(){
+		int i, j;
+		WordFrequency temp = null;
+		for (i = 0; i < size(); i++) {
+			for (j = 1; j < (size() - i); j++) {
+				if (get(j - 1).getFrequency() < this.get(j).getFrequency()) {
+					temp = get(j);
+					set(j, get(j - 1));
+					set(j - 1, temp);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 
-	 * @param s
+	 * 
+	 * @param s 
 	 * @return
 	 */
 	public boolean add(String s) {
@@ -42,11 +62,41 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 			this.get(indexOf(s)).incrementFrequency();
 			return true;
 		}
-		return this.add(new WordFrequency(s));
+		
+		return addAlphabetically(s);
+		//generic add uncomment
+	//	return this.add(new WordFrequency(s));
 	}
+	
+	public boolean addAlphabetically(String word )
+    {
+        int low = 0;
+        int high = this.size() - 1;
+        int mid;
+        
+        if(high == -1) //ArrayList is empty
+        	this.add(new WordFrequency(word));
+        while( low <= high ){
+            mid = ( low + high ) / 2;
+            if(word.compareTo(this.get(mid).getWord()) > 0 )
+             low = mid + 1;
+            else if(word.compareTo(this.get(mid).getWord()) < 0 ) 
+            	 high = mid - 1;
+        }       
 
+        this.add(low, new WordFrequency(word)); 
+        return true;
+    }
 }
 
+/**
+ * This file keeps track of all words in the text file
+ * and the amount of times it appears in the file.
+ * 
+ * @author James Celona
+ * @author Joe Young
+ *
+ */
 class WordFrequency implements Comparable<Object> {
 	private String word;
 	private int frequency;
@@ -57,6 +107,7 @@ class WordFrequency implements Comparable<Object> {
 	}
 
 	// Mutators and Accessors
+	
 	public String getWord() {
 		return word;
 	}
@@ -80,7 +131,9 @@ class WordFrequency implements Comparable<Object> {
 	// toString overriding default toString
 	public String toString() {
 		Formatter f = new Formatter();
-		return f.format("%-40s\t%d", this.word, this.frequency).toString();
+		String s = f.format("%-40s\t%d", this.word, this.frequency).toString();
+		f.close();
+		return s;
 	}
 
 	// equals overriding default object equals

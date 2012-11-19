@@ -45,7 +45,7 @@ public class WordFrequencyAnalyzer {
 	 */
 	public void executeAnalysis() {
 		populateCollection();
-		sortWords(words, words.size());
+		words.sort();
 		outputAnalysis();
 	}
 	/**
@@ -75,24 +75,12 @@ public class WordFrequencyAnalyzer {
 		while (wordCounter.hasNext())
 			words.add(wordCounter.getNextWord());
 	}
-	/**
-	 * 
-	 * @param word 
-	 * @param n
-	 */
-	//TODO: Rename these to be more specific ?
+	
+	/*
+	/
 	private void sortWords(WordFrequencyCollection word, int n) {
 		int i, j;
 		WordFrequency temp = null;
-		for (i = 0; i < n; i++) {
-			for (j = 1; j < (n - i); j++) {
-				if (word.get(j - 1).getWord().compareTo(word.get(j).getWord()) > 0) {
-					temp = word.get(j);
-					word.set(j, word.get(j - 1));
-					word.set(j - 1, temp);
-				}
-			}
-		}
 		for (i = 0; i < n; i++) {
 			for (j = 1; j < (n - i); j++) {
 				if (word.get(j - 1).getFrequency() < word.get(j).getFrequency()) {
@@ -103,5 +91,6 @@ public class WordFrequencyAnalyzer {
 			}
 		}
 	}
+	*/
 
 }
