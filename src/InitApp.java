@@ -161,6 +161,7 @@ public class InitApp implements ActionListener {
 		JFileChooser fileOpener = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Accepted Report Formats", "txt", "html");
+		//filter = new FileNameExtensionFilter()
 		// ensures user does not select a directory
 		fileOpener.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileOpener.setFileFilter(filter);
@@ -168,11 +169,17 @@ public class InitApp implements ActionListener {
 			if (fileOpener.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				// save the file path
 				filePath = fileOpener.getSelectedFile();
-				if (getExtension(filePath).equals("html")) {
+				analyzer.outputToFile(getExtension(filePath), filePath);
+				/*System.out.println();
+				if(!filter.getExtensions().toString().contains(getExtension(filePath)))
+					JOptionPane.showMessageDialog(null,	"The exension ."+ getExtension(filePath) + " is not supported.");
+				//if(getExtension(filePath).equals(filter.toString()))
+				else if (getExtension(filePath).equals("html")) {
 					writeHTML(filePath);
 				} else if (getExtension(filePath).equals("txt")) {
 					writeTXT(filePath);
-				}
+				}*/
+				
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"You must select a filename to save");
@@ -198,7 +205,7 @@ public class InitApp implements ActionListener {
 		frame.setContentPane(demo.createContentPane());
 
 		// Display the window.
-		frame.setSize(250, 400);
+		frame.setSize(275, 400);
 		frame.setVisible(true);
 	}
 	
