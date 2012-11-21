@@ -12,32 +12,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.JTextArea;
+
 public class WordCounter {
 	private Scanner scanner; // Scanner that will be used to getNext
-	String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to
-												// dictate the scanner
-
-	// private Pattern ignorePattern = new Pattern(null, 0) ;
+	private WordFrequencyAnalyzer analyzer;
+	
 	public WordCounter(File filePath) {
 		try {
-			scanner = new Scanner(filePath).useDelimiter(regex);
+			scanner = new Scanner(filePath);
+			analyzer = new WordFrequencyAnalyzer(scanner);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	public String getNextWord() {
-		if (scanner.hasNext()) {
-			String temp = scanner.next();
-			if (temp.length() > 0)
-				return temp;
-		}
-		return null;
+	
+	public void runAnalyzer(){
+		analyzer.executeAnalysis();
 	}
-
-	public boolean hasNext() {
-		return scanner.hasNext();
+	
+	public void exportResults(File filePath){
+		
 	}
 
 }// end wordCounter

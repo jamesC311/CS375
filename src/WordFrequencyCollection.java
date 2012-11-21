@@ -9,14 +9,8 @@ import java.util.Formatter;
  * @author Joe Young
  */
 public class WordFrequencyCollection extends ArrayList<WordFrequency> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L; // TODO: Find out what this
-														// is..
-
-	public int indexOf(String s) {
+	
+	private int indexOf(String s) {
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).equals(s))
 				return i;
@@ -30,7 +24,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 *            the word attempting to be added to the collection
 	 * @return boolean if the word exists already in the collection.
 	 */
-	public boolean contains(String s) {
+	private boolean contains(String s) {
 		if (size() <= 0)
 			return false;
 		for (int i = 0; i < size(); i++) {
@@ -39,21 +33,6 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		}
 		return false;
 	}
-
-	public void sort() {
-		int i, j;
-		WordFrequency temp = null;
-		for (i = 0; i < size(); i++) {
-			for (j = 1; j < (size() - i); j++) {
-				if (get(j - 1).getFrequency() < this.get(j).getFrequency()) {
-					temp = get(j);
-					set(j, get(j - 1));
-					set(j - 1, temp);
-				}
-			}
-		}
-	}
-
 	/**
 	 * 
 	 * 
@@ -63,20 +42,24 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	public boolean add(String s) {
 		if (s == null)
 			return false;
-		if (this.contains(s)) {
-			this.get(indexOf(s)).incrementFrequency();
+		if (contains(s)) {
+			get(indexOf(s)).incrementFrequency();
 			return true;
 		}
-		return addAlphabetically(s);
+		return addSorted(s);
+	}
+	
+	public boolean add(WordFrequency word){
+		return add(word.getWord());
 	}
 
-	public boolean addAlphabetically(String word) {
+	public boolean addSorted(String word) {
 		int low = 0;
 		int high = this.size() - 1;
 		int mid;
 
 		if (high == -1) // ArrayList is empty
-			this.add(new WordFrequency(word));
+			this.add(0, new WordFrequency(word));
 		while (low <= high) {
 			mid = (low + high) / 2;
 			if (word.compareTo(this.get(mid).getWord()) > 0)
@@ -84,10 +67,12 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 			else if (word.compareTo(this.get(mid).getWord()) < 0)
 				high = mid - 1;
 		}
+		
 		//Low position always gives the index at which word should be inserted
 		this.add(low, new WordFrequency(word)); 
 		return true;
 	}
+	
 }
 
 /**
@@ -125,14 +110,10 @@ class WordFrequency implements Comparable<Object> {
 		frequency++;
 	}
 
-	public void decrementFrequency() {
-		frequency--;
-	}
-
 	// toString overriding default toString
 	public String toString() {
 		Formatter f = new Formatter();
-		String s = f.format("%-30s\t%d", this.word, this.frequency).toString();
+		String s = f.format("%s, Occurs %d times", this.word, this.frequency).toString();
 		f.close();
 		return s;
 	}

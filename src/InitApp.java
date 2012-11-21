@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.filechooser.*;
+import javax.swing.text.JTextComponent;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -17,50 +18,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 /**
  * This class is just like MenuLookDemo, except the menu items
  * actually do something, thanks to event listeners.
  */
 public class InitApp implements ActionListener {
-	JTextArea reportOutput;
+	JTextField reportStatus;
+	JTextArea reportResults;
 	JScrollPane scrollPane;
-	JButton fileSelect, generateReport;
+	JButton fileSelect, generateReport, exportReport;
 	File filePath = null;
 	String newLine = System.getProperty("line.separator");
+	WordCounter wc;
 
-	// Functional classes
-	WordFrequencyAnalyzer analyzer;
-	/**
-	 * 
-	 * @return the menu bar for the file selector.
-	 */
-	public JMenuBar createFileBar() {
-		JMenuBar menuBar; // File bar
-		JMenu menu; // Place holders for respective menus
-		JMenuItem menuItem; // Used as a placeholder to create menu items
-
-		// Create the menu bar.
-		menuBar = new JMenuBar();
-
-		// Build the first menu.
-		menu = new JMenu("File");
-		menuBar.add(menu);
-
-		menuItem = new JMenuItem("New Report");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
-
-		menuItem = new JMenuItem("Export Report");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
-
-		return menuBar;
-	}
 
 	public Container createContentPane() {
-		// Create the content-pane-to-be.
-		// JPanel contentPane = new JPanel(new BorderLayout());
 		JPanel contentPane = new JPanel(new GridBagLayout());
 		GridBagConstraints gridSettings = new GridBagConstraints();
 		contentPane.setOpaque(true);
@@ -71,32 +45,43 @@ public class InitApp implements ActionListener {
 		gridSettings.weightx = 0.5;
 		gridSettings.gridx = 0;
 		gridSettings.gridy = 0;
-		// buttonPane.add(fileSelect, gridSettings);
 		contentPane.add(fileSelect, gridSettings);
 
 		generateReport = new JButton("Generate Report");
 		generateReport.addActionListener(this);
 		gridSettings.gridx = 1;
 		gridSettings.gridy = 0;
-		// buttonPane.add(generateReport, gridSettings);
 		contentPane.add(generateReport, gridSettings);
+		
 
-		reportOutput = new JTextArea();
-		reportOutput.setEditable(false);
-		scrollPane = new JScrollPane(reportOutput);
+		exportReport = new JButton("Export Report");
+		exportReport.addActionListener(this);
+		gridSettings.gridx = 2;
+		gridSettings.gridy = 0;
+		contentPane.add(exportReport, gridSettings);
+		
+		reportStatus = new JTextField();
+		reportStatus.setEditable(false);
 		gridSettings.fill = GridBagConstraints.BOTH;
 		gridSettings.weightx = 0.5;
-		gridSettings.weighty = 0.5;
-		gridSettings.gridheight = 2;
+		gridSettings.gridheight = 1;
 		gridSettings.gridwidth = 3;
 		gridSettings.gridx = 0;
 		gridSettings.gridy = 1;
-		// buttonPane.add(scrollPane, gridSettings);
+		contentPane.add(reportStatus, gridSettings);
+		
+		reportResults = new JTextArea();
+		reportResults.setEditable(false);
+		scrollPane = new JScrollPane(reportResults);
+		gridSettings.fill = GridBagConstraints.BOTH;
+		gridSettings.weightx = 0.5;
+		gridSettings.weighty = 0.5;
+		gridSettings.gridheight = 1;
+		gridSettings.gridwidth = 3;
+		gridSettings.gridx = 0;
+		gridSettings.gridy = 2;
 		contentPane.add(scrollPane, gridSettings);
-		// Add the text area to the content pane.
-		// contentPane.add(buttonPane, BorderLayout.CENTER);
-		// contentPane.add(scrollPane, BorderLayout.CENTER);
-
+		
 		return contentPane;
 	}
 
@@ -105,27 +90,28 @@ public class InitApp implements ActionListener {
 		if (action.equals("Select File")) {
 			startFileOpen();
 			if (filePath != null)
-				analyzer = new WordFrequencyAnalyzer(filePath, reportOutput);
-		}
+				wc = new WordCounter(filePath);
+				reportStatus.setText("File For Analysis Selected:'" + filePath.toString() + "'");
+			}
 		if (action.equals("Generate Report")) {
-			if (filePath != null)
-				analyzer.executeAnalysis();
+			if (filePath != null){
+				wc.runAnalyzer();
+				reportStatus.setText("Analyzed:'" + filePath.toString() + "'");
+			}
 			else
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can generate a report");
-		}
-		if (action.equals("New Report")) {
-			reportOutput.setText("");
-			filePath = null;
 		}
 		if (action.equals("Export Report")) {
 			if (filePath == null)
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can export a report");
-			else
-				startFileSave();
+			else{
+				reportStatus.setText("Exporting Results to:'" + filePath.toString() + "'");
+				wc.exportResults(filePath);
+			}
 		}
 	}
 	/**Have the user select the a file to be analyzed and assure
@@ -167,18 +153,7 @@ public class InitApp implements ActionListener {
 		fileOpener.setFileFilter(filter);
 		try {
 			if (fileOpener.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-				// save the file path
 				filePath = fileOpener.getSelectedFile();
-				analyzer.outputToFile(getExtension(filePath), filePath);
-				/*System.out.println();
-				if(!filter.getExtensions().toString().contains(getExtension(filePath)))
-					JOptionPane.showMessageDialog(null,	"The exension ."+ getExtension(filePath) + " is not supported.");
-				//if(getExtension(filePath).equals(filter.toString()))
-				else if (getExtension(filePath).equals("html")) {
-					writeHTML(filePath);
-				} else if (getExtension(filePath).equals("txt")) {
-					writeTXT(filePath);
-				}*/
 				
 			} else {
 				JOptionPane.showMessageDialog(null,
@@ -200,61 +175,12 @@ public class InitApp implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create and set up the content pane.
-		InitApp demo = new InitApp();
-		frame.setJMenuBar(demo.createFileBar());
-		frame.setContentPane(demo.createContentPane());
+		InitApp userInterface = new InitApp();
+		frame.setContentPane(userInterface.createContentPane());
 
 		// Display the window.
 		frame.setSize(275, 400);
 		frame.setVisible(true);
-	}
-	
-	/**Outputs to an HTML File
-	 * 
-	 * @param outputFile file to the output file
-	 */
-	private void writeHTML(File outputFile) {
-		FileWriter writeFile;
-		try {
-			writeFile = new FileWriter(filePath, false);
-			writeFile.write(reportOutput.getText());
-			writeFile.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * writes a .txt report file
-	 * 
-	 * @param file the filepath of the output file.
-	 */
-	private void writeTXT(File file) {
-		FileWriter writeFile;
-		try {
-			writeFile = new FileWriter(filePath, false);
-			writeFile.write(reportOutput.getText());
-			writeFile.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * identifies what type of file we are looking at eg (.txt, .pdf)
-	 * @param f output file path.
-	 * @return returns the extension of the specified file.
-	 */
-	private static String getExtension(File f) {
-		String extension = null;
-		String s = f.getName();
-		int i = s.lastIndexOf('.');
-
-		if (i > 0 && i < s.length() - 1)
-			extension = s.substring(i + 1);
-		if (extension == null)
-			return "";
-		return extension;
 	}
 
 	public static void main(String[] args) {
