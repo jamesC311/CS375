@@ -2,15 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
 import javax.swing.filechooser.*;
-import javax.swing.text.JTextComponent;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -95,7 +88,8 @@ public class InitApp implements ActionListener {
 			}
 		if (action.equals("Generate Report")) {
 			if (filePath != null){
-				wc.runAnalyzer();
+				System.out.println(reportResults.getClass());
+				wc.exportResults(reportResults);
 				reportStatus.setText("Analyzed:'" + filePath.toString() + "'");
 			}
 			else
@@ -104,12 +98,14 @@ public class InitApp implements ActionListener {
 								"You must select a file to be analyzed before you can generate a report");
 		}
 		if (action.equals("Export Report")) {
+			startFileSave();
 			if (filePath == null)
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can export a report");
 			else{
 				reportStatus.setText("Exporting Results to:'" + filePath.toString() + "'");
+				System.out.println(filePath.getClass());
 				wc.exportResults(filePath);
 			}
 		}

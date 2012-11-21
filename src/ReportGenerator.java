@@ -1,10 +1,11 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+
+import javax.swing.JTextArea;
 
 /**
  * This class will produce different forms of reports based on user requests
@@ -23,7 +24,7 @@ public class ReportGenerator {
 	ArrayList<WordFrequency> leastFrequent = new ArrayList<WordFrequency>();
 	WordFrequency[] wordsArray;
 
-	public String executeReport(Collection<WordFrequency> words) {
+	public ReportGenerator(Collection<WordFrequency> words) {
 		wordsArray = new WordFrequency[words.size()];
 		wordsArray = words.toArray(wordsArray);
 		sort(this.wordsArray);
@@ -50,10 +51,12 @@ public class ReportGenerator {
 			totalOccurances += wordsArray[i].getFrequency();
 
 		averageOccurance = totalOccurances / uniqueWords;
-		System.out.println(getReport());
-		return getReport();
 	}
 
+	/**
+	 * 
+	 * @return String generic output for targets that do not require specific format
+	 */
 	public String getReport() {
 		return ("*********************************************" + newline
 				+ "* Unique Words:        " + uniqueWords + newline
@@ -99,50 +102,44 @@ public class ReportGenerator {
 							+ "<header>"+ newline
 							+ "<h1> Generated Report From Collection</h1>"+ newline
 							+ "<p> This is a generated report based on a word collection, focusing on the frequency of words </p>"+ newline
-							+ "<nav>"+ newline
-							+ "	<ul>"+ newline
-							+ "		<li><a href=\"#report\">Go to Report</a></li>"+ newline
-							+ "		<li><a href=\"#list\">Go to List</a></li>"+ newline
-							+ "	</ul>"+ newline
-							+ "</nav>"+ newline
 							+ "</header>"+ newline
 							+ "<div id=\"report\">"+ newline
 							+ "<table>"+ newline
 							+ "    <tr>"+ newline
-							+ "        <th colspan=\"3\">Report Statistics</th>"+ newline
+							+ "        <th colspan=\"3\" class=\"word num\">Report Statistics</th>"+ newline
 							+ "	</tr>"+ newline
 							+ "    <tr>"+ newline
-							+ "        <td>Unique Words</td>"+ newline
-							+ "        <td colspan=\"2\">"+ uniqueWords
+							+ "        <td class=\"word\">Unique Words</td>"+ newline
+							+ "        <td colspan=\"2\" class=\"num\">"+ uniqueWords
 							+ "</td>"+ newline
 							+ "    </tr>"+ newline
 							+ "    <tr>"+ newline
-							+ "        <td>Total Occurenes</td>"+ newline
-							+ "        <td colspan=\"2\">"+ totalOccurances
+							+ "        <td class=\"word\">Total Occurenes</td>"+ newline
+							+ "        <td colspan=\"2\" class=\"num\">"+ totalOccurances
 							+ "</td>"+ newline
 							+ "    </tr>"+ newline
 							+ "    <tr>"+ newline
-							+ "        <td>Average Occurences</td>"+ newline
-							+ "        <td colspan=\"2\">"+ averageOccurance
+							+ "        <td class=\"word\">Average Occurences</td>"+ newline
+							+ "        <td colspan=\"2\" class=\"num\">"+ averageOccurance
 							+ "</td>"+ newline
 							+ "    </tr>"+ newline
 							+ "    <tr>"+ newline
-							+ "        <th colspan=\"3\">Most Frequent Word(s)</th>"
+							+ "        <th colspan=\"3\" class=\"word num\">Most Frequent Word(s)</th>"
 							+ newline + "    </tr>" + newline);
 			for (int i = 0; i < mostFrequent.size(); i++) {
-				writeFile.append("    <tr>" + newline + "        <td>"
+				writeFile.append("    <tr>" + newline + "        <td class=\"word\">"
 						+ mostFrequent.get(i).getWord() + "</td>" + newline
-						+ "		 <td colspan=\"2\">"
+						+ "		 <td colspan=\"2\" class=\"num\">"
 						+ mostFrequent.get(i).getFrequency() + " times</td>"
 						+ newline + "    </tr>" + newline);
 			}
 			writeFile.append("    <tr >" + newline
-					+ "        <th colspan=\"3\">Least Frequent Word(s)</th>" + newline
+					+ "        <th colspan=\"3\" class=\"word num\">Least Frequent Word(s)</th>" + newline
 					+ "    </tr>" + newline);
-			for (int i = leastFrequent.size(); i <= 0; i--) {
-				writeFile.append("    <tr>" + newline + "        <td>"
+			for (int i = leastFrequent.size()-1; i >= 0; i--) {
+				writeFile.append("    <tr>" + newline + "        <td class=\"word\">"
 						+ leastFrequent.get(i).getWord() + "</td>" + newline
-						+ "		 <td colspan=\"2\">"
+						+ "		 <td colspan=\"2\" class=\"num\">"
 						+ leastFrequent.get(i).getFrequency() + " times</td>"
 						+ newline + "    </tr>" + newline);
 				}
@@ -173,6 +170,22 @@ public class ReportGenerator {
 		}
 	}
 	
+	public void exportToPrintStream(PrintStream stream){
+		stream.print(getReport());
+		stream.print("Word\t-Frequency" + newline);
+		for(int i = 0; i < wordsArray.length; i++){
+			stream.print(wordsArray[i].getWord() + "\t" + wordsArray[i].getFrequency() +newline);
+		}
+	}
+	
+	public void exportToJTextArea(JTextArea textArea){
+		textArea.setText(getReport());
+		textArea.append("Word\t-Frequency" + newline);
+		for(int i = 0; i < wordsArray.length; i++){
+			textArea.append(wordsArray[i].getWord() + "\t" + wordsArray[i].getFrequency() +newline);
+		}
+	}
+	
 	public WordFrequency[] getArray(){
 		return wordsArray;
 	}
@@ -189,23 +202,6 @@ public class ReportGenerator {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * identifies what type of file we are looking at eg (.txt, .pdf)
-	 * @param f output file path.
-	 * @return returns the extension of the specified file.
-	 */
-	private static String getExtension(File f) {
-		String extension = null;
-		String s = f.getName();
-		int i = s.lastIndexOf('.');
-
-		if (i > 0 && i < s.length() - 1)
-			extension = s.substring(i + 1);
-		if (extension == null)
-			return "";
-		return extension;
 	}
 
 

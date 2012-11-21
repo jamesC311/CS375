@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.swing.JTextArea;
-
 public class WordCounter {
 	private Scanner scanner; // Scanner that will be used to getNext
 	private WordFrequencyAnalyzer analyzer;
@@ -28,12 +26,8 @@ public class WordCounter {
 		}
 	}
 	
-	public void runAnalyzer(){
-		analyzer.executeAnalysis();
-	}
-	
-	public void exportResults(File filePath){
-		
+	public void exportResults(Object o){
+		analyzer.outputAnalysis(o);
 	}
 
 }// end wordCounter
