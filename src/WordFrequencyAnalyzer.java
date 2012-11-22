@@ -24,14 +24,14 @@ public class WordFrequencyAnalyzer {
 	private final String regex = "\\W"; // Regular Expressions to handle scanner
 	private WordFrequencyCollection words = new WordFrequencyCollection();
 	private ReportGenerator reportGen;
-	private Scanner inFile;
+	private Scanner inFileScanner;
 	
 	/**
 	 * 
 	 * @param scan reads from the text file
 	 */
 	WordFrequencyAnalyzer(Scanner scan) {
-		inFile = scan.useDelimiter(regex);
+		inFileScanner = scan.useDelimiter(regex);
 		populateCollection();
 		reportGen = new ReportGenerator(words);
 	}
@@ -68,8 +68,8 @@ public class WordFrequencyAnalyzer {
 	
 	private void populateCollection() {
 		String temp = null;
-		while (inFile.hasNext()) {
-			temp = inFile.next();
+		while (inFileScanner.hasNext()) {
+			temp = inFileScanner.next();
 			if (temp.length() > 0)
 				words.add(temp);
 		}

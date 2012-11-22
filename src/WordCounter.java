@@ -12,13 +12,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 public class WordCounter {
 	private Scanner scanner; // Scanner that will be used to getNext
 	private WordFrequencyAnalyzer analyzer;
+	private File inFile, outFile;
 	
-	public WordCounter(File filePath) {
+	public WordCounter() {
+		startFileOpen();
 		try {
-			scanner = new Scanner(filePath);
+			scanner = new Scanner(inFile);
 			analyzer = new WordFrequencyAnalyzer(scanner);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -28,6 +34,62 @@ public class WordCounter {
 	
 	public void exportResults(Object o){
 		analyzer.outputAnalysis(o);
+	}
+	
+	/**
+	 * Have the user select the a file to be analyzed and assure they are only
+	 * opening a file
+	 */
+	public void startFileOpen() {
+		JFileChooser filePicker = new JFileChooser();
+
+		// ensures user does not select a directory
+		filePicker.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		try {
+			if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				inFile = filePicker.getSelectedFile();
+			} else {
+				if (inFile == null)
+					JOptionPane.showMessageDialog(null,
+							"You must select a file to be analyzed");
+				else
+					JOptionPane.showMessageDialog(
+							null,
+							"File not change, current file: \""
+									+ inFile.toString() + "\"");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void startFileSave() {
+		JFileChooser fileOpener = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"Accepted Report Formats [txt, html]", "txt", "html");
+		fileOpener.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileOpener.setFileFilter(filter);
+		try {
+			if (fileOpener.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				outFile = fileOpener.getSelectedFile();
+
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"You must select a filename to save");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public File getInFile(){
+		return inFile;
+	}
+	
+	public File getOutFile(){
+		return outFile;
 	}
 
 }// end wordCounter
