@@ -72,7 +72,7 @@ public class ReportGenerator {
 		try {
 			writeFile = new FileWriter(file, false);
 			writeFile.write(getReport());
-			writeFile.append("Word\t-Frequency" + newline);
+			writeFile.append("Word\t Frequency" + newline);
 			for(int i = 0; i < wordsArray.length; i++){
 				writeFile.append(wordsArray[i].getWord() + "\t" + wordsArray[i].getFrequency() +newline);
 			}
@@ -172,7 +172,7 @@ public class ReportGenerator {
 	
 	public void exportToPrintStream(PrintStream stream){
 		stream.print(getReport());
-		stream.print("Word\t-Frequency" + newline);
+		stream.print("Word\t Frequency" + newline);
 		for(int i = 0; i < wordsArray.length; i++){
 			stream.print(wordsArray[i].getWord() + "\t" + wordsArray[i].getFrequency() +newline);
 		}
@@ -180,7 +180,7 @@ public class ReportGenerator {
 	
 	public void exportToJTextArea(JTextArea textArea){
 		textArea.setText(getReport());
-		textArea.append("Word\t-Frequency" + newline);
+		textArea.append("Word\t Frequency" + newline);
 		for(int i = 0; i < wordsArray.length; i++){
 			textArea.append(wordsArray[i].getWord() + "\t" + wordsArray[i].getFrequency() +newline);
 		}

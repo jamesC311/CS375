@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 /**
- * This class is just like MenuLookDemo, except the menu items
- * actually do something, thanks to event listeners.
+ * This class is just like MenuLookDemo, except the menu items actually do
+ * something, thanks to event listeners.
  */
 public class InitApp implements ActionListener {
 	JTextField reportStatus;
@@ -24,9 +24,16 @@ public class InitApp implements ActionListener {
 	JButton fileSelect, generateReport, exportReport;
 	File filePath = null;
 	String newLine = System.getProperty("line.separator");
-	WordCounter wc;
+	WordCounter wordCounter;
 
-
+	/**
+	 * This method sets defaults for the content pane that the user will be
+	 * using to select which file to use, whether or not to analyze it and where
+	 * and what to export
+	 * 
+	 * @return the content pane from which the user can select the file to
+	 *         analyze and export
+	 */
 	public Container createContentPane() {
 		JPanel contentPane = new JPanel(new GridBagLayout());
 		GridBagConstraints gridSettings = new GridBagConstraints();
@@ -45,14 +52,13 @@ public class InitApp implements ActionListener {
 		gridSettings.gridx = 1;
 		gridSettings.gridy = 0;
 		contentPane.add(generateReport, gridSettings);
-		
 
 		exportReport = new JButton("Export Report");
 		exportReport.addActionListener(this);
 		gridSettings.gridx = 2;
 		gridSettings.gridy = 0;
 		contentPane.add(exportReport, gridSettings);
-		
+
 		reportStatus = new JTextField();
 		reportStatus.setEditable(false);
 		gridSettings.fill = GridBagConstraints.BOTH;
@@ -62,7 +68,7 @@ public class InitApp implements ActionListener {
 		gridSettings.gridx = 0;
 		gridSettings.gridy = 1;
 		contentPane.add(reportStatus, gridSettings);
-		
+
 		reportResults = new JTextArea();
 		reportResults.setEditable(false);
 		scrollPane = new JScrollPane(reportResults);
@@ -74,25 +80,29 @@ public class InitApp implements ActionListener {
 		gridSettings.gridx = 0;
 		gridSettings.gridy = 2;
 		contentPane.add(scrollPane, gridSettings);
-		
+
 		return contentPane;
 	}
 
+	/**
+	 * used to determine what the user wants to do with the file and relays the
+	 * message accordingly.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action.equals("Select File")) {
 			startFileOpen();
 			if (filePath != null)
-				wc = new WordCounter(filePath);
-				reportStatus.setText("File For Analysis Selected:'" + filePath.toString() + "'");
-			}
+				wordCounter = new WordCounter(filePath);
+			reportStatus.setText("File For Analysis Selected:'"
+					+ filePath.toString() + "'");
+		}
 		if (action.equals("Generate Report")) {
-			if (filePath != null){
+			if (filePath != null) {
 				System.out.println(reportResults.getClass());
-				wc.exportResults(reportResults);
+				wordCounter.exportResults(reportResults);
 				reportStatus.setText("Analyzed:'" + filePath.toString() + "'");
-			}
-			else
+			} else
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can generate a report");
@@ -103,19 +113,22 @@ public class InitApp implements ActionListener {
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can export a report");
-			else{
-				reportStatus.setText("Exporting Results to:'" + filePath.toString() + "'");
+			else {
+				reportStatus.setText("Exporting Results to:'"
+						+ filePath.toString() + "'");
 				System.out.println(filePath.getClass());
-				wc.exportResults(filePath);
+				wordCounter.exportResults(filePath);
 			}
 		}
 	}
-	/**Have the user select the a file to be analyzed and assure
-	 * they are only opening a file 
+
+	/**
+	 * Have the user select the a file to be analyzed and assure they are only
+	 * opening a file
 	 */
 	public void startFileOpen() {
 		JFileChooser filePicker = new JFileChooser();
-	
+
 		// ensures user does not select a directory
 		filePicker.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		try {
@@ -136,21 +149,23 @@ public class InitApp implements ActionListener {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 	/**
-	 *If the user selects .txt or .html save the file to the specified output filepath
+	 * If the user selects .txt or .html save the file to the specified output
+	 * filepath
 	 */
 	public void startFileSave() {
 		JFileChooser fileOpener = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Accepted Report Formats", "txt", "html");
-		//filter = new FileNameExtensionFilter()
+		// filter = new FileNameExtensionFilter()
 		// ensures user does not select a directory
 		fileOpener.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileOpener.setFileFilter(filter);
 		try {
 			if (fileOpener.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				filePath = fileOpener.getSelectedFile();
-				
+
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"You must select a filename to save");
@@ -175,7 +190,7 @@ public class InitApp implements ActionListener {
 		frame.setContentPane(userInterface.createContentPane());
 
 		// Display the window.
-		frame.setSize(275, 400);
+		frame.setSize(400, 400);
 		frame.setVisible(true);
 	}
 

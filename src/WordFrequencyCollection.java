@@ -9,7 +9,16 @@ import java.util.Formatter;
  * @author Joe Young
  */
 public class WordFrequencyCollection extends ArrayList<WordFrequency> {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 * @param s  //TODO: what does this do? Finds the number of times in the collection?
+	 * @return
+	 */
 	private int indexOf(String s) {
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).equals(s))
@@ -33,26 +42,31 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		}
 		return false;
 	}
+
 	/**
 	 * 
-	 * 
-	 * @param s
-	 * @return
+	 * @param word the word being added to the collection
+	 * @return whether or not the word was sorted
 	 */
-	public boolean add(String s) {
-		if (s == null)
+	public boolean add(String word) {
+		if (word == null)
 			return false;
-		if (contains(s)) {
-			get(indexOf(s)).incrementFrequency();
+		if (contains(word)) {
+			get(indexOf(word)).incrementFrequency();
 			return true;
 		}
-		return addSorted(s);
-	}
-	
-	public boolean add(WordFrequency word){
-		return add(word.getWord());
+		return addSorted(word);
 	}
 
+	public boolean add(WordFrequency word) {
+		return add(word.getWord());
+	}
+	/**
+	 * adds the word to the collection sorted by frequency and
+	 * if required alphabetically
+	 * @param word the word being added
+	 * @return
+	 */
 	public boolean addSorted(String word) {
 		int low = 0;
 		int high = this.size() - 1;
@@ -67,16 +81,15 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 			else if (word.compareTo(this.get(mid).getWord()) < 0)
 				high = mid - 1;
 		}
-		
-		//Low position always gives the index at which word should be inserted
-		this.add(low, new WordFrequency(word)); 
+
+		// Low position always gives the index at which word should be inserted
+		this.add(low, new WordFrequency(word));
 		return true;
 	}
-	
 }
 
 /**
- * This file keeps track of all words in the text file and the amount of times
+ * This class keeps track of all words in the text file and the amount of times
  * it appears in the file.
  * 
  * @author James Celona
@@ -113,12 +126,13 @@ class WordFrequency implements Comparable<Object> {
 	// toString overriding default toString
 	public String toString() {
 		Formatter f = new Formatter();
-		String s = f.format("%s, Occurs %d times", this.word, this.frequency).toString();
+		String s = f.format("%s, Occurs %d times", this.word, this.frequency)
+				.toString();
 		f.close();
 		return s;
 	}
-
-	// equals overriding default object equals
+	
+	@Override
 	public boolean equals(Object testWord) {
 		if (testWord == this)
 			return true;
@@ -138,6 +152,7 @@ class WordFrequency implements Comparable<Object> {
 
 	// @implements Comparable<Object> :: requires this method
 	// Compares by the frequency integer
+	@Override
 	public int compareTo(Object o) {
 		return this.frequency - ((WordFrequency) o).frequency;
 	}
