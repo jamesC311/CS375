@@ -8,6 +8,8 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * This class is designed to creat a GUI for WordCounter, nothing more than an interface
@@ -86,11 +88,14 @@ public class WordCounterGUI implements ActionListener {
 		String action = e.getActionCommand();
 		if (action.equals("Select File")) {
 			wc = new WordCounter();
-			reportStatus.setText("File For Analysis Selected:'"
-					+ wc.getInFile().toString() + "'");
+			if(wc.getInFile() != null)
+				reportStatus.setText("File For Analysis Selected:'"
+						+ wc.getInFile().toString() + "'");
+			else
+				reportStatus.setText("No File Selected For Analysis");
 		}
 		if (action.equals("Generate Report")) {
-			if (wc.getInFile() != null) {
+			if (wc != null && wc.getInFile() != null) {
 				wc.exportResults(reportResults);
 				reportStatus.setText("Analyzed:'" + wc.getInFile().toString() + "'");
 			} else
@@ -99,16 +104,16 @@ public class WordCounterGUI implements ActionListener {
 								"You must select a file to be analyzed before you can generate a report");
 		}
 		if (action.equals("Export Report")) {
-			wc.startFileSave();
-			if (wc.getOutFile() == null)
-				JOptionPane
-						.showMessageDialog(null,
-								"You must select a file to be analyzed before you can export a report");
-
-			else{
-				reportStatus.setText("Exporting Results to:'" + wc.getOutFile().toString() + "'");
-				wc.exportResults(wc.getOutFile());
+			if (wc != null){
+				wc.startFileSave();
+				if(wc.getOutFile()!= null){
+					reportStatus.setText("Exporting Results to:'" + wc.getOutFile().toString() + "'");
+					wc.exportResults(wc.getOutFile());
+				}
 			}
+			else
+				JOptionPane.showMessageDialog(null,
+						"You must select a file to be analyzed before you can export a report");
 		}
 	}
 	/**
@@ -130,6 +135,23 @@ public class WordCounterGUI implements ActionListener {
 	}
 
 	public static void main(String[] args) {
+		try {
+            // Set System L&F
+        UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	       // handle exception
+	    }
+	    catch (ClassNotFoundException e) {
+	       // handle exception
+	    }
+	    catch (InstantiationException e) {
+	       // handle exception
+	    }
+	    catch (IllegalAccessException e) {
+	       // handle exception
+	    }
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {

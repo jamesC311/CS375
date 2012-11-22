@@ -19,16 +19,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class WordCounter {
 	private Scanner scanner; // Scanner that will be used to getNext
 	private WordFrequencyAnalyzer analyzer;
-	private File inFile, outFile;
+	private File inFile = null;
+	private File outFile = null;
 	
 	public WordCounter() {
 		startFileOpen();
-		try {
-			scanner = new Scanner(inFile);
-			analyzer = new WordFrequencyAnalyzer(scanner);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(inFile != null){
+			try {
+				scanner = new Scanner(inFile);
+				analyzer = new WordFrequencyAnalyzer(scanner);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -49,9 +52,10 @@ public class WordCounter {
 			if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 				inFile = filePicker.getSelectedFile();
 			} else {
-				if (inFile == null)
+				if (inFile == null){
 					JOptionPane.showMessageDialog(null,
 							"You must select a file to be analyzed");
+				}
 				else
 					JOptionPane.showMessageDialog(
 							null,
