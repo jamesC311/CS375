@@ -18,8 +18,10 @@ import javax.swing.JTextArea;
 
 //TODO: If we want to do a dictionary, we will have to store words in a DB.
 public class WordFrequencyAnalyzer {
-	String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to handle
+
+	//String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to handle
 												// scanner
+	private final String regex = "\\W"; // Regular Expressions to handle scanner
 	private WordFrequencyCollection words = new WordFrequencyCollection();
 	private ReportGenerator reportGen;
 	private Scanner inFile;
@@ -34,37 +36,33 @@ public class WordFrequencyAnalyzer {
 		reportGen = new ReportGenerator(words);
 	}
 	/**
-	 * Based on selection displays and/or saves different
-	 * types of files
-	 * @param selection the format chosen by the user
+	 * Based on selection perform the operation
+	 * 
+	 * @param arg0 the users selection.
 	 */
-	public void outputAnalysis(Object selection) {
-		switch (getSubstring(selection.getClass().toString(), '.')) {
-		case "printstream":
-			reportGen.exportToPrintStream((PrintStream) selection);
-			break;
-
-		case "jtextarea":
-			reportGen.exportToJTextArea((JTextArea) selection);
-			break;
-		case "win32shellfolder2":
-			String extension = getSubstring(((File) selection).getName(), '.');
-
-			switch (extension) {
-			case "txt":
-				reportGen.exportToTXTFile((File) selection);
-				break;
-			case "html":
-				reportGen.exportToHTMLFile((File) selection);
-				break;
+	public void outputAnalysis(Object arg0){
+		switch(getSubstring(arg0.getClass().toString(), '.')){
+			case "printstream":
+				reportGen.exportToPrintStream((PrintStream)arg0);break;
+			case "jtextarea":
+				reportGen.exportToJTextArea((JTextArea)arg0);break;
 			default:
-				throw new IllegalArgumentException("Unaccepted File format: "
-						+ extension);
-			}
-			break;
-		default:
-			throw new IllegalArgumentException("Unaccepted Output Source: "
-					+ selection.getClass());
+				//This is an if because File.class is different depending on OS
+				if(arg0 instanceof File){
+					String extension = getSubstring(((File)arg0).getName(), '.');
+					switch (extension) {
+			        case "txt":
+			            reportGen.exportToTXTFile((File)arg0);break;
+			        case "html":
+			        	reportGen.exportToHTMLFile((File)arg0);break;
+			        default:
+			            throw new IllegalArgumentException("Unaccepted File format: " + extension);
+					}
+				}
+				else{
+	            throw new IllegalArgumentException("Unaccepted Output Source: " + arg0.getClass());
+				}
+
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class InitApp implements ActionListener {
 	JButton fileSelect, generateReport, exportReport;
 	File filePath = null;
 	String newLine = System.getProperty("line.separator");
-	WordCounter wordCounter;
+	WordCounter wc;
 
 	/**
 	 * This method sets defaults for the content pane that the user will be
@@ -38,7 +38,7 @@ public class InitApp implements ActionListener {
 		JPanel contentPane = new JPanel(new GridBagLayout());
 		GridBagConstraints gridSettings = new GridBagConstraints();
 		contentPane.setOpaque(true);
-
+		
 		fileSelect = new JButton("Select File");
 		fileSelect.addActionListener(this);
 		gridSettings.fill = GridBagConstraints.HORIZONTAL;
@@ -93,14 +93,14 @@ public class InitApp implements ActionListener {
 		if (action.equals("Select File")) {
 			startFileOpen();
 			if (filePath != null)
-				wordCounter = new WordCounter(filePath);
+				wc = new WordCounter(filePath);
 			reportStatus.setText("File For Analysis Selected:'"
 					+ filePath.toString() + "'");
 		}
 		if (action.equals("Generate Report")) {
 			if (filePath != null) {
 				System.out.println(reportResults.getClass());
-				wordCounter.exportResults(reportResults);
+				wc.exportResults(reportResults);
 				reportStatus.setText("Analyzed:'" + filePath.toString() + "'");
 			} else
 				JOptionPane
@@ -113,11 +113,11 @@ public class InitApp implements ActionListener {
 				JOptionPane
 						.showMessageDialog(null,
 								"You must select a file to be analyzed before you can export a report");
-			else {
-				reportStatus.setText("Exporting Results to:'"
-						+ filePath.toString() + "'");
-				System.out.println(filePath.getClass());
-				wordCounter.exportResults(filePath);
+
+			else{
+				reportStatus.setText("Exporting Results to:'" + filePath.toString() + "'");
+				System.out.println(filePath.getClass().getCanonicalName());
+				wc.exportResults(filePath);
 			}
 		}
 	}
