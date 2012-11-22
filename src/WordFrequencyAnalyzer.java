@@ -22,7 +22,7 @@ import javax.swing.JTextArea;
  * 
  */
 public class WordFrequencyAnalyzer {
-	String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to handle scanner
+	private final String regex = "\\W"; // Regular Expressions to handle scanner
 	private WordFrequencyCollection words = new WordFrequencyCollection();
 	private ReportGenerator reportGen;
 	private Scanner inFile;
@@ -39,19 +39,22 @@ public class WordFrequencyAnalyzer {
 				reportGen.exportToPrintStream((PrintStream)arg0);break;
 			case "jtextarea":
 				reportGen.exportToJTextArea((JTextArea)arg0);break;
-			case "win32shellfolder2":
-				String extension = getSubstring(((File)arg0).getName(), '.');
-				switch (extension) {
-		        case "txt":
-		            reportGen.exportToTXTFile((File)arg0);break;
-		        case "html":
-		        	reportGen.exportToHTMLFile((File)arg0);break;
-		        default:
-		            throw new IllegalArgumentException("Unaccepted File format: " + extension);
-				}
-				break;
 			default:
+				//This is an if because File.class is different depending on OS
+				if(arg0 instanceof File){
+					String extension = getSubstring(((File)arg0).getName(), '.');
+					switch (extension) {
+			        case "txt":
+			            reportGen.exportToTXTFile((File)arg0);break;
+			        case "html":
+			        	reportGen.exportToHTMLFile((File)arg0);break;
+			        default:
+			            throw new IllegalArgumentException("Unaccepted File format: " + extension);
+					}
+				}
+				else{
 	            throw new IllegalArgumentException("Unaccepted Output Source: " + arg0.getClass());
+				}
 		}
 	}
 	

@@ -31,7 +31,7 @@ public class InitApp implements ActionListener {
 		JPanel contentPane = new JPanel(new GridBagLayout());
 		GridBagConstraints gridSettings = new GridBagConstraints();
 		contentPane.setOpaque(true);
-
+		
 		fileSelect = new JButton("Select File");
 		fileSelect.addActionListener(this);
 		gridSettings.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +105,7 @@ public class InitApp implements ActionListener {
 								"You must select a file to be analyzed before you can export a report");
 			else{
 				reportStatus.setText("Exporting Results to:'" + filePath.toString() + "'");
-				System.out.println(filePath.getClass());
+				System.out.println(filePath.getClass().getCanonicalName());
 				wc.exportResults(filePath);
 			}
 		}
@@ -175,7 +175,7 @@ public class InitApp implements ActionListener {
 		frame.setContentPane(userInterface.createContentPane());
 
 		// Display the window.
-		frame.setSize(275, 400);
+		frame.setSize(400, 250);
 		frame.setVisible(true);
 	}
 
