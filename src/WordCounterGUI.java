@@ -134,7 +134,7 @@ public class WordCounterGUI implements ActionListener {
 		frame.setContentPane(userInterface.createContentPane());
 
 		// Display the window.
-		frame.setSize(400, 400);
+		frame.setSize(450, 400);
 		frame.setVisible(true);
 	}
 

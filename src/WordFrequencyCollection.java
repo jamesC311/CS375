@@ -57,7 +57,9 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		}
 		return addSorted(word);
 	}
-
+	/**
+	 * @return boolean if the word is succesfully added to the collection
+	 */
 	public boolean add(WordFrequency word) {
 		return add(word.getWord());
 	}
@@ -65,7 +67,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * adds the word to the collection sorted by frequency and
 	 * if required alphabetically
 	 * @param word the word being added
-	 * @return
+	 * @return boolean if the collection is sorted
 	 */
 	public boolean addSorted(String word) {
 		int low = 0;
@@ -124,6 +126,7 @@ class WordFrequency implements Comparable<Object> {
 	}
 
 	// toString overriding default toString
+	@Override
 	public String toString() {
 		Formatter f = new Formatter();
 		String s = f.format("%s, Occurs %d times", this.word, this.frequency)
@@ -131,7 +134,6 @@ class WordFrequency implements Comparable<Object> {
 		f.close();
 		return s;
 	}
-	
 	@Override
 	public boolean equals(Object testWord) {
 		if (testWord == this)
