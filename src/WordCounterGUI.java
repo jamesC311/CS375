@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * This class is designed to creat a GUI for WordCounter, nothing more than an interface
+ * This class is designed to create a GUI for WordCounter, nothing more than an interface
  */
 public class WordCounterGUI implements ActionListener {
 	JTextField reportStatus;
