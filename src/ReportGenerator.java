@@ -1,4 +1,3 @@
-import java.awt.Font;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -96,9 +95,7 @@ public class ReportGenerator {
 		} catch (IOException e) {
 			System.out
 					.println("The program encountered an error, please restart the program");
-			System.exit(0); // TODO should we just exit the program when it runs
-							// into I/O? Or just send them back?
-			// TODO Auto-generated catch block
+			System.exit(0); 
 			e.printStackTrace();
 		}
 	}
@@ -231,7 +228,6 @@ public class ReportGenerator {
 			writeFile.flush();
 			writeFile.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -302,7 +298,7 @@ public class ReportGenerator {
 	 * this method sorts words by frequency.
 	 * 
 	 * @param words
-	 *            a sorted collection of words from the file //TODO: aids (sorts with ITERATOR)
+	 *            a sorted collection of words from the file //TODO: sort with ITERATOR
 	 */
 	public void sort(WordFrequency[] words) {
 		int i, j;
