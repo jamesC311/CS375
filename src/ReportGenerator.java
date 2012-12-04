@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -232,6 +233,30 @@ public class ReportGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+
+	public void exportToCSVFile(File file) {
+		FileWriter writeFile;
+		try {
+			writeFile = new FileWriter(file, false);
+			PrintWriter pw = new PrintWriter(writeFile);
+			writeFile.write(getReport());
+			writeFile.append("Word\t Frequency" + newline);
+			for (int i = 0; i < wordsArray.length; i++) {
+				writeFile.append(wordsArray[i].getWord() + ","
+						+ wordsArray[i].getFrequency() + "" + newline);
+			}
+			writeFile.flush();
+			writeFile.close();
+			pw.flush();
+			pw.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 	public void exportToPrintStream(PrintStream stream) {
 		Iterator<WordFrequency> tempItr = words.iterator();
