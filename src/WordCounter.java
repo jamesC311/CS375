@@ -59,8 +59,8 @@ public class WordCounter {
 				else
 					JOptionPane.showMessageDialog(
 							null,
-							"File not change, current file: \""
-									+ inFile.toString() + "\"");
+							"File not change, current file: \\"
+									+ inFile.toString() + "\\");
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
@@ -71,7 +71,7 @@ public class WordCounter {
 	public void startFileSave() {
 		JFileChooser fileOpener = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Accepted Report Formats [txt, html]", "txt", "html");
+				"Accepted Report Formats [txt, html, csv]", "txt", "html", "csv");
 		fileOpener.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileOpener.setFileFilter(filter);
 		try {
