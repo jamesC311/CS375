@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -84,7 +85,8 @@ public class ReportGenerator {
 		try {
 			writeFile = new FileWriter(file, false);
 			writeFile.write(getReport());
-			writeFile.append("Word\t Frequency" + newline);
+			writeFile.append(String.format(format, "Word", "Frequency")+ newline);
+		
 			while(tempItr.hasNext()){
 				tempWF = tempItr.next();
 				writeFile.append(String.format(format, tempWF.getWord(), tempWF.getFrequency() + newline));
@@ -241,7 +243,7 @@ public class ReportGenerator {
 			writeFile = new FileWriter(file, false);
 			PrintWriter pw = new PrintWriter(writeFile);
 			writeFile.write(getReport());
-			writeFile.append("Word\t Frequency" + newline);
+			writeFile.append("Word\t Frequency" + newline + newline);
 			for (int i = 0; i < wordsArray.length; i++) {
 				writeFile.append(wordsArray[i].getWord() + ","
 						+ wordsArray[i].getFrequency() + "" + newline);
