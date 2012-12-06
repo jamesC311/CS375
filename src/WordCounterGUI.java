@@ -35,6 +35,7 @@ public class WordCounterGUI implements ActionListener {
 		GridBagConstraints gridSettings = new GridBagConstraints();
 		contentPane.setOpaque(true);
 		
+		//the next bunch of code sets up the window
 		fileSelect = new JButton("Select File");
 		fileSelect.addActionListener(this);
 		gridSettings.fill = GridBagConstraints.HORIZONTAL;
@@ -159,6 +160,7 @@ public class WordCounterGUI implements ActionListener {
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
 			public void run() {
 				createAndShowGUI();
 			}

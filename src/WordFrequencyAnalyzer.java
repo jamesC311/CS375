@@ -16,7 +16,6 @@ import javax.swing.JTextArea;
  * 
  */
 
-// TODO: If we want to do a dictionary, we will have to store words in a DB.
 public class WordFrequencyAnalyzer {
 
 	// String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to
@@ -29,8 +28,8 @@ public class WordFrequencyAnalyzer {
 
 	/**
 	 * 
-	 * @param scan
-	 *            reads from the text file
+	 * @param scan reads from the textfile
+	 *            
 	 */
 	WordFrequencyAnalyzer(Scanner scan) {
 		inFileScanner = scan.useDelimiter(regex);
@@ -42,7 +41,7 @@ public class WordFrequencyAnalyzer {
 	 * Based on selection perform the operation
 	 * 
 	 * @param arg0
-	 *            the users selection.
+	 *            the users selection. //TODO should we change the name or arg0?
 	 */
 	public void outputAnalysis(Object arg0) {
 		switch (getSubstring(arg0.getClass().toString(), '.')) {
@@ -77,15 +76,14 @@ public class WordFrequencyAnalyzer {
 				throw new IllegalArgumentException("Unaccepted Output Source: "
 						+ arg0.getClass());
 			}
-
 		}
 	}
-
+	
 	private void populateCollection() {
 		String temp = null;
 		while (inFileScanner.hasNext()) {
 			temp = inFileScanner.next();
-			if (temp.length() > 0)
+			if (temp.length() > 0) //fill till temp returns false
 				words.add(temp);
 		}
 	}

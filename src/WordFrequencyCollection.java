@@ -14,11 +14,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 * @param s  //TODO: what does this do? Finds the number of times in the collection?
-	 * @return
-	 */
+
 	private int indexOf(String s) {
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).equals(s))
@@ -76,6 +72,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 
 		if (high == -1) // ArrayList is empty
 			this.add(0, new WordFrequency(word));
+		
 		while (low <= high) {
 			mid = (low + high) / 2;
 			if (word.compareTo(this.get(mid).getWord()) > 0)

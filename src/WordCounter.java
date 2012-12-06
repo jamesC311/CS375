@@ -29,12 +29,14 @@ public class WordCounter {
 				scanner = new Scanner(inFile);
 				analyzer = new WordFrequencyAnalyzer(scanner);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @param o the output source to be generated
+	 */
 	public void exportResults(Object o){
 		analyzer.outputAnalysis(o);
 	}
@@ -47,7 +49,7 @@ public class WordCounter {
 		JFileChooser filePicker = new JFileChooser();
 
 		// ensures user does not select a directory
-		filePicker.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		filePicker.setFileSelectionMode(JFileChooser.FILES_ONLY); //user won't be able to select folders
 		try {
 			if (filePicker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 				inFile = filePicker.getSelectedFile();
@@ -87,11 +89,17 @@ public class WordCounter {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+	/**
+	 * 
+	 * @return the file the user selected
+	 */
 	public File getInFile(){
 		return inFile;
 	}
-	
+	/**
+	 * 
+	 * @return the output file the user selected
+	 */
 	public File getOutFile(){
 		return outFile;
 	}

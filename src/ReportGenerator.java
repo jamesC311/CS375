@@ -60,7 +60,7 @@ public class ReportGenerator {
 		}
 	}// report generator constructor
 
-	/**
+	/**This is a report that gives information about the text file
 	 * 
 	 * @return String generic output for targets that do not require specific
 	 *         format
@@ -76,7 +76,11 @@ public class ReportGenerator {
 				+ "* [See bottom of List]" + newline
 				+ "*********************************************" + newline);
 	}
-
+	/**
+	 * Has the report saved as a .txt which can be opened by any number of programs. 
+	 * 
+	 * @param file
+	 */
 	public void exportToTXTFile(File file) {
 		FileWriter writeFile;
 		Iterator<WordFrequency> tempItr = words.iterator();
@@ -99,7 +103,11 @@ public class ReportGenerator {
 			e.printStackTrace();
 		}
 	}
-
+	/**This will generate an .html which can be opened by any browser, and will
+	 * display a table of the words and frequency
+	 * 
+	 * @param file the actual file to be saved //TODO I don't like this javadoc name
+	 */
 	public void exportToHTMLFile(File file) {
 		FileWriter writeFile;
 		try {
@@ -159,7 +167,7 @@ public class ReportGenerator {
 							+ newline
 							+ "    <tr>"
 							+ newline
-							+ "        <td class=\"word\">Total Occurenes</td>"
+							+ "        <td class=\"word\">Total Occurrences</td>"
 							+ newline
 							+ "        <td colspan=\"2\" class=\"num\">"
 							+ totalOccurances
@@ -169,7 +177,7 @@ public class ReportGenerator {
 							+ newline
 							+ "    <tr>"
 							+ newline
-							+ "        <td class=\"word\">Average Occurences</td>"
+							+ "        <td class=\"word\">Average Occurrences</td>"
 							+ newline
 							+ "        <td colspan=\"2\" class=\"num\">"
 							+ averageOccurance
@@ -232,7 +240,10 @@ public class ReportGenerator {
 		}
 	}
 	
-
+	/**Has the report saved as a .csv (Which can be opened in Excel)
+	 * 
+	 * @param file where the report will be saved
+	 */
 	public void exportToCSVFile(File file) {
 		FileWriter writeFile;
 		try {
@@ -255,7 +266,10 @@ public class ReportGenerator {
 
 	}
 
-
+	/**
+	 * 
+	 * @param stream What will be printed out
+	 */
 	public void exportToPrintStream(PrintStream stream) {
 		Iterator<WordFrequency> tempItr = words.iterator();
 		WordFrequency tempWF;
@@ -267,7 +281,10 @@ public class ReportGenerator {
 					tempWF.getFrequency() + newline));
 		}
 	}
-
+	/**This has the report that was generated print to the screen
+	 * 
+	 * @param textArea where the text is going to be printed
+	 */
 	public void exportToJTextArea(JTextArea textArea) {
 		Iterator<WordFrequency> tempItr = words.iterator();
 		WordFrequency tempWF;
@@ -304,7 +321,7 @@ public class ReportGenerator {
 		int i, j;
 		WordFrequency temp = null;
 		for (i = 0; i < words.length; i++) {
-			for (j = 1; j < (words.length - i); j++) {
+			for (j = 1; j < (words.length - j); j++) {
 				if (words[j - 1].getFrequency() < words[j].getFrequency()) {
 					temp = words[j];
 					words[j] = words[j - 1];
