@@ -18,9 +18,6 @@ import javax.swing.JTextArea;
 
 public class WordFrequencyAnalyzer {
 
-	// String regex = "[^\\p{Alpha}|^\\p{Digit}]"; // Regular Expressions to
-	// handle
-	// scanner
 	private final String regex = "\\W"; // Regular Expressions to handle scanner
 	private WordFrequencyCollection words = new WordFrequencyCollection();
 	private ReportGenerator reportGen;

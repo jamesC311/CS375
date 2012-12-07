@@ -48,7 +48,6 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 		if (word == null)
 			return false;
 		if (contains(word)) {
-			System.out.println("Incrementing Frequency of: "+word);
 			get(indexOf(word)).incrementFrequency();
 			sort();
 			return true;
@@ -108,7 +107,6 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 				}
 			}
 		}
-		System.out.println("Done Sort");
 	}// sort
 }
 

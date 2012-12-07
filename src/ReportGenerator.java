@@ -23,11 +23,16 @@ public class ReportGenerator {
 	int averageOccurance;
 	int totalOccurances;
 	Collection<WordFrequency> words;
-	String format = "%-30s\t%s";
+	String format = "%-30s\t%s";  //Uniform String format.
 	ArrayList<WordFrequency> mostFrequent = new ArrayList<WordFrequency>();
 	ArrayList<WordFrequency> leastFrequent = new ArrayList<WordFrequency>();
 	WordFrequency[] wordsArray;
 
+	/**
+	 * constructor 
+	 * 
+	 * @param wordsInput a collection (of wordFrequency) 
+	 */
 	public ReportGenerator(Collection<WordFrequency> wordsInput) {
 		words = wordsInput;
 		if(words != null && words.size() > 0){
@@ -79,14 +84,14 @@ public class ReportGenerator {
 	/**
 	 * Has the report saved as a .txt which can be opened by any number of programs. 
 	 * 
-	 * @param file
+	 * @param txtFile the generated report 
 	 */
-	public void exportToTXTFile(File file) {
+	public void exportToTXTFile(File txtFile) {
 		FileWriter writeFile;
 		Iterator<WordFrequency> tempItr = words.iterator();
 		WordFrequency tempWF;
 		try {
-			writeFile = new FileWriter(file, false);
+			writeFile = new FileWriter(txtFile, false);
 			writeFile.write(getReport());
 			writeFile.append(String.format(format, "Word", "Frequency")+ newline);
 		
@@ -251,7 +256,7 @@ public class ReportGenerator {
 			writeFile = new FileWriter(csvFile, false);
 			PrintWriter pw = new PrintWriter(writeFile);
 			writeFile.write(getReport());
-			writeFile.append("Word\t Frequency" + newline + newline);
+			writeFile.append("Word\t" + "," + "Frequency" + newline + newline);
 			for (int i = 0; i < wordsArray.length; i++) {
 				writeFile.append(wordsArray[i].getWord() + ","
 						+ wordsArray[i].getFrequency() + "" + newline);
@@ -264,7 +269,6 @@ public class ReportGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
