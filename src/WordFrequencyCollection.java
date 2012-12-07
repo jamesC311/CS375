@@ -45,13 +45,12 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return whether or not the word was sorted
 	 */
 	public boolean add(String word) {
-		System.out.println("Contains: " + contains(word) + " - " + word);
 		if (word == null)
 			return false;
 		if (contains(word)) {
-			System.out.print("Found at index: "+indexOf(word));
+			System.out.println("Incrementing Frequency of: "+word);
 			get(indexOf(word)).incrementFrequency();
-			System.out.println("incremented: "+get(indexOf(word)));
+			sort();
 			return true;
 		}
 		else{
@@ -62,7 +61,6 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return boolean if the word is successfully added to the collection
 	 */
 	public boolean add(WordFrequency word) {
-		System.out.println("Add(WordFrequency word)-" + word);
 		return add(word.getWord());
 	}
 	/**
@@ -72,7 +70,6 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return boolean if the collection is sorted
 	 */
 	public boolean addSorted(String word) {
-		System.out.println("addSorted(String word)-" + word);
 		int low = 0;
 		int high = this.size() - 1;
 		int mid;
@@ -90,11 +87,29 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 					high = mid - 1;
 			}
 		}
-
 		// Low position always gives the index at which word should be inserted
 		this.add(low, new WordFrequency(word));
+		sort();
 		return true;
 	}
+	
+	/**
+	 * this method sorts words by frequency.
+	 * 
+	 * @param words
+	 *            a sorted collection of words from the file
+	 */
+	private void sort() {
+		int i, j;
+		for (i = 0; i < size(); i++){
+			for (j = 1; j < (size() - i); j++) {
+				if (get(j-1).getFrequency() < get(j).getFrequency()) {
+					add(j-1, remove(j));		
+				}
+			}
+		}
+		System.out.println("Done Sort");
+	}// sort
 }
 
 /**
@@ -165,5 +180,6 @@ class WordFrequency implements Comparable<Object> {
 	public int compareTo(Object o) {
 		return this.frequency - ((WordFrequency) o).frequency;
 	}
+	
 
 }

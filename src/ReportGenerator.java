@@ -36,7 +36,6 @@ public class ReportGenerator {
 			WordFrequency lastWord, firstWord;
 			Iterator<WordFrequency> getKeyWords = words.iterator();
 			Iterator<WordFrequency> itr = words.iterator();
-			sort(this.wordsArray);
 			uniqueWords = words.size();
 			averageOccurance = totalOccurances = 0;
 			
@@ -76,6 +75,7 @@ public class ReportGenerator {
 				+ "* [See bottom of List]" + newline
 				+ "*********************************************" + newline);
 	}
+	
 	/**
 	 * Has the report saved as a .txt which can be opened by any number of programs. 
 	 * 
@@ -103,6 +103,7 @@ public class ReportGenerator {
 			e.printStackTrace();
 		}
 	}
+	
 	/**This will generate an .html which can be opened by any browser, and will
 	 * display a table of the words and frequency
 	 * 
@@ -281,6 +282,7 @@ public class ReportGenerator {
 					tempWF.getFrequency() + newline));
 		}
 	}
+	
 	/**This has the report that was generated print to the screen
 	 * 
 	 * @param textArea where the text is going to be printed
@@ -296,10 +298,6 @@ public class ReportGenerator {
 			textArea.append(String.format(format, tempWF.getWord(),
 					tempWF.getFrequency() + newline));
 			tempWF = null;
-		/*for(int i = 0; i < wordsArray.length; i++){
-			textArea.append(wordsArray[i].getWord() + "\t \t" +
-			wordsArray[i].getFrequency() +newline);
-			textArea.append("\t" + wordsArray[i].getFrequency() + "\n");*/
 		}
 	}
 
@@ -310,24 +308,4 @@ public class ReportGenerator {
 	public WordFrequency[] getArray() {
 		return wordsArray;
 	}
-
-	/**
-	 * this method sorts words by frequency.
-	 * 
-	 * @param words
-	 *            a sorted collection of words from the file
-	 */
-	public void sort(WordFrequency[] words) {
-		int i, j;
-		WordFrequency temp = null;
-		for (i = 0; i < words.length; i++) {
-			for (j = 1; j < (words.length - j); j++) {
-				if (words[j - 1].getFrequency() < words[j].getFrequency()) {
-					temp = words[j];
-					words[j] = words[j - 1];
-					words[j - 1] = temp;
-				}
-			}
-		}
-	}// sort
 } // reportGenerator
