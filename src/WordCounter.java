@@ -34,6 +34,7 @@ public class WordCounter {
 		}
 	}
 	/**
+	 * This takes an object so that any output source can be implemented later
 	 * 
 	 * @param o the output source to be generated
 	 */
@@ -69,7 +70,11 @@ public class WordCounter {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
+	/**
+	 * Have the user select the location for the output 
+	 * opening a file
+	 */
 	public void startFileSave() {
 		JFileChooser fileOpener = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(

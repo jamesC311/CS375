@@ -40,32 +40,32 @@ public class WordFrequencyAnalyzer {
 	/**
 	 * Based on selection perform the operation
 	 * 
-	 * @param arg0
-	 *            the users selection. //TODO should we change the name or arg0?
+	 * @param outputSource
+	 *            the users output source selection
 	 */
-	public void outputAnalysis(Object arg0) {
-		switch (getSubstring(arg0.getClass().toString(), '.')) {
+	public void outputAnalysis(Object outputSource) {
+		switch (getSubstring(outputSource.getClass().toString(), '.')) {
 		case "printstream":
-			reportGen.exportToPrintStream((PrintStream) arg0);
+			reportGen.exportToPrintStream((PrintStream) outputSource);
 			break;
 		case "jtextarea":
-			reportGen.exportToJTextArea((JTextArea) arg0);
+			reportGen.exportToJTextArea((JTextArea) outputSource);
 			break;
 		default:
 			// This is an if because File.class is different depending on OS
-			if (arg0 instanceof File) {
-				String extension = getSubstring(((File) arg0).getName(), '.');
+			if (outputSource instanceof File) {
+				String extension = getSubstring(((File) outputSource).getName(), '.');
 				switch (extension) {
 				case "txt":
-					reportGen.exportToTXTFile((File) arg0);
+					reportGen.exportToTXTFile((File) outputSource);
 					break;
 
 				case "html":
-					reportGen.exportToHTMLFile((File) arg0);
+					reportGen.exportToHTMLFile((File) outputSource);
 					break;
 
 				case "csv":
-					reportGen.exportToCSVFile((File) arg0);
+					reportGen.exportToCSVFile((File) outputSource);
 					break;
 
 				default:
@@ -74,7 +74,7 @@ public class WordFrequencyAnalyzer {
 				}
 			} else {
 				throw new IllegalArgumentException("Unaccepted Output Source: "
-						+ arg0.getClass());
+						+ outputSource.getClass());
 			}
 		}
 	}

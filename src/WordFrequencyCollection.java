@@ -81,7 +81,7 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 			this.add(0, new WordFrequency(word));
 			return true;
 		}
-		else{
+		else{ //Array list is not empty and there for needs to be added elsewhere
 			while (low <= high) {
 				mid = (low + high) / 2;
 				if (word.compareTo(this.get(mid).getWord()) > 0)
