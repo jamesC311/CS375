@@ -106,12 +106,12 @@ public class ReportGenerator {
 	/**This will generate an .html which can be opened by any browser, and will
 	 * display a table of the words and frequency
 	 * 
-	 * @param file the actual file to be saved //TODO I don't like this javadoc name
+	 * @param htmlFile the report being saved to an html
 	 */
-	public void exportToHTMLFile(File file) {
+	public void exportToHTMLFile(File htmlFile) {
 		FileWriter writeFile;
 		try {
-			writeFile = new FileWriter(file, false);
+			writeFile = new FileWriter(htmlFile, false);
 			writeFile
 					.write("<head>"
 							+ newline
@@ -242,12 +242,12 @@ public class ReportGenerator {
 	
 	/**Has the report saved as a .csv (Which can be opened in Excel)
 	 * 
-	 * @param file where the report will be saved
+	 * @param csvFile the generated report to be created
 	 */
-	public void exportToCSVFile(File file) {
+	public void exportToCSVFile(File csvFile) {
 		FileWriter writeFile;
 		try {
-			writeFile = new FileWriter(file, false);
+			writeFile = new FileWriter(csvFile, false);
 			PrintWriter pw = new PrintWriter(writeFile);
 			writeFile.write(getReport());
 			writeFile.append("Word\t Frequency" + newline + newline);
@@ -315,7 +315,7 @@ public class ReportGenerator {
 	 * this method sorts words by frequency.
 	 * 
 	 * @param words
-	 *            a sorted collection of words from the file //TODO: sort with ITERATOR
+	 *            a sorted collection of words from the file
 	 */
 	public void sort(WordFrequency[] words) {
 		int i, j;
