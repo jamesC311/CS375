@@ -45,18 +45,24 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return whether or not the word was sorted
 	 */
 	public boolean add(String word) {
+		System.out.println("Contains: " + contains(word) + " - " + word);
 		if (word == null)
 			return false;
 		if (contains(word)) {
+			System.out.print("Found at index: "+indexOf(word));
 			get(indexOf(word)).incrementFrequency();
+			System.out.println("incremented: "+get(indexOf(word)));
 			return true;
 		}
+		else{
 		return addSorted(word);
+		}
 	}
 	/**
-	 * @return boolean if the word is succesfully added to the collection
+	 * @return boolean if the word is successfully added to the collection
 	 */
 	public boolean add(WordFrequency word) {
+		System.out.println("Add(WordFrequency word)-" + word);
 		return add(word.getWord());
 	}
 	/**
@@ -66,19 +72,23 @@ public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 	 * @return boolean if the collection is sorted
 	 */
 	public boolean addSorted(String word) {
+		System.out.println("addSorted(String word)-" + word);
 		int low = 0;
 		int high = this.size() - 1;
 		int mid;
 
-		if (high == -1) // ArrayList is empty
+		if (high == -1){ // ArrayList is empty
 			this.add(0, new WordFrequency(word));
-		
-		while (low <= high) {
-			mid = (low + high) / 2;
-			if (word.compareTo(this.get(mid).getWord()) > 0)
-				low = mid + 1;
-			else if (word.compareTo(this.get(mid).getWord()) < 0)
-				high = mid - 1;
+			return true;
+		}
+		else{
+			while (low <= high) {
+				mid = (low + high) / 2;
+				if (word.compareTo(this.get(mid).getWord()) > 0)
+					low = mid + 1;
+				else if (word.compareTo(this.get(mid).getWord()) < 0)
+					high = mid - 1;
+			}
 		}
 
 		// Low position always gives the index at which word should be inserted
