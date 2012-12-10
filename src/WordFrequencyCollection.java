@@ -10,9 +10,6 @@ import java.util.Formatter;
  */
 public class WordFrequencyCollection extends ArrayList<WordFrequency> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private int indexOf(String s) {
